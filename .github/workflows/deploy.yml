@@ -30,7 +30,9 @@ jobs:
         run: bun install
 
       - name: Build
-        run: bun run build
+        run: |
+          bun run build
+          cp dist/index.html dist/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
