@@ -2,22 +2,41 @@
   import Captcha from "./components/Captcha.svelte";
   import Success from "./components/Success.svelte";
 
+  import NotFound from "./components/NotFound.svelte";
+
   let verified = $state(false);
   let hash = $state(window.location.hash);
+  let pathname = $state(window.location.pathname);
+
+  let isNotFound = $derived.by(() => {
+    const validPaths = ["/", "/index.html"];
+    if (!validPaths.includes(pathname)) return true;
+
+    const validHashes = ["", "#", "#success"];
+    return !validHashes.includes(hash);
+  });
 
   $effect(() => {
     const handleHashChange = () => {
       hash = window.location.hash;
+      pathname = window.location.pathname;
+
       if (hash === "#success" && !verified) {
         window.location.hash = "";
       }
     };
 
     window.addEventListener("hashchange", handleHashChange);
+    window.addEventListener("popstate", () => {
+      pathname = window.location.pathname;
+      hash = window.location.hash;
+    });
+
     handleHashChange();
 
     return () => {
       window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("popstate", () => {});
     };
   });
 
@@ -30,7 +49,9 @@
 </script>
 
 <main>
-  {#if hash === "#success" && verified}
+  {#if isNotFound}
+    <NotFound onhome={() => (window.location.href = "/")} />
+  {:else if hash === "#success" && verified}
     <Success />
   {:else}
     <div class="center-container">
