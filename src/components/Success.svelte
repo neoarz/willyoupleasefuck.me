@@ -3,7 +3,7 @@
 <div class="success-container">
     <div class="content">
         <h1>Wow you made it congrats!</h1>
-        <p>dm <strong>.neoarz.</strong> on discord for a cookie</p>
+        <p>dm <strong>neoarz</strong> on discord for a cookie</p>
         <p>send this website to your friends to rickroll them as well!!</p>
 
         <div class="links">
