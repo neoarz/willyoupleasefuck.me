@@ -1,0 +1,42 @@
+{
+  "component": {
+    "type": 17,
+    "accent_color": null,
+    "components": [
+      {
+        "type": 9,
+        "components": [
+          {
+            "type": 10,
+            "content": "## This message contains sensitive content\nYou must verify your age group to view this message."
+          }
+        ],
+        "accessory": {
+          "type": 11,
+          "media": {
+            "url": "https://willyoupleasefuck.me/verify.png"
+          },
+          "description": "Illustration of a Discord shield and laptop"
+        }
+      },
+      {
+        "type": 14
+      },
+      {
+        "type": 9,
+        "components": [
+          {
+            "type": 10,
+            "content": "You are currently in the **Teen** age group.\n[Learn more about age verification on Discord](https://support.discord.com/)"
+          }
+        ],
+        "accessory": {
+          "type": 2,
+          "style": 5,
+          "label": "Verify Age Group",
+          "url": "https://willyoupleasefuck.me/"
+        }
+      }
+    ]
+  }
+}
