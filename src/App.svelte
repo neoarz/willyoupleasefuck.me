@@ -16,29 +16,16 @@
     return !validHashes.includes(hash);
   });
 
-  $effect(() => {
-    const handleHashChange = () => {
-      hash = window.location.hash;
-      pathname = window.location.pathname;
+  function syncLocation() {
+    hash = window.location.hash;
+    pathname = window.location.pathname;
 
-      if (hash === "#success" && !verified) {
-        window.location.hash = "";
-      }
-    };
+    if (hash === "#success" && !verified) {
+      window.location.hash = "";
+    }
+  }
 
-    window.addEventListener("hashchange", handleHashChange);
-    window.addEventListener("popstate", () => {
-      pathname = window.location.pathname;
-      hash = window.location.hash;
-    });
-
-    handleHashChange();
-
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-      window.removeEventListener("popstate", () => {});
-    };
-  });
+  syncLocation();
 
   function handleVerify() {
     verified = true;
@@ -47,6 +34,8 @@
     }, 1000);
   }
 </script>
+
+<svelte:window onhashchange={syncLocation} onpopstate={syncLocation} />
 
 <main>
   {#if isNotFound}

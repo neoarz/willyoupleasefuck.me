@@ -1,20 +1,22 @@
 <script>
     let { onhome } = $props();
     let showRickroll = $state(false);
+    /** @type {HTMLVideoElement | undefined} */
     let videoEl = $state();
 
     function handleGoHome() {
         showRickroll = true;
         setTimeout(() => {
-            if (videoEl) {
-                videoEl.muted = false;
-                videoEl.play().catch((e) => {
+            const video = videoEl;
+            if (video) {
+                video.muted = false;
+                video.play().catch((e) => {
                     console.warn(
                         "audio is blocked u bum, just watch the video",
                         e,
                     );
-                    videoEl.muted = true;
-                    videoEl.play();
+                    video.muted = true;
+                    video.play();
                 });
             }
         }, 0);
