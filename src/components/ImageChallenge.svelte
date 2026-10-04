@@ -4,16 +4,18 @@
     import info from "../assets/icon_info.svg";
 
     let { onverify, visible = false } = $props();
-    let videoEl;
+    /** @type {HTMLVideoElement | undefined} */
+    let videoEl = $state();
 
     $effect(() => {
-        if (visible && videoEl) {
-            videoEl.currentTime = 0.1;
-            videoEl.muted = false;
-            videoEl.play().catch((e) => {
+        const video = videoEl;
+        if (visible && video) {
+            video.currentTime = 0.1;
+            video.muted = false;
+            video.play().catch((e) => {
                 console.warn("audio is blocked u bum, just watch the video", e);
-                videoEl.muted = false;
-                videoEl.play();
+                video.muted = true;
+                video.play();
             });
         }
     });
