@@ -7,17 +7,23 @@
 
     let { onverify } = $props();
     let status = $state("idle"); // 'idle' , 'loading' , 'challenge' , 'verified'
-    let showChallenge = $state(false);
+    // mounted (hidden) from the start so the video buffers while they read the page
+    let showChallenge = $state(true);
+    /** @type {ReturnType<typeof ImageChallenge> | undefined} */
+    let challenge = $state();
+
+    const wait = (/** @type {number} */ ms) =>
+        new Promise((resolve) => setTimeout(resolve, ms));
 
     function handleClick() {
         if (status !== "idle") return;
 
         status = "loading";
-        showChallenge = true;
 
-        setTimeout(() => {
+        // spin for at least 1.5s, longer if the video still needs to buffer
+        Promise.all([wait(1500), challenge?.whenReady(6000)]).then(() => {
             status = "challenge";
-        }, 1500);
+        });
     }
 
     function handleChallengeVerify() {
@@ -68,6 +74,7 @@
 
     {#if showChallenge}
         <ImageChallenge
+            bind:this={challenge}
             onverify={handleChallengeVerify}
             visible={status === "challenge"}
         />

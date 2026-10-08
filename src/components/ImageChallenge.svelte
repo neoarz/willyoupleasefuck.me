@@ -7,6 +7,29 @@
     /** @type {HTMLVideoElement | undefined} */
     let videoEl = $state();
 
+    /**
+     * Resolves once the video can play through without freezing, straight away
+     * if the browser isn't downloading it (some ignore preload), or after maxMs.
+     * @param {number} maxMs
+     * @returns {Promise<void>}
+     */
+    export function whenReady(maxMs) {
+        return new Promise((resolve) => {
+            const video = videoEl;
+            if (
+                !video ||
+                video.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA ||
+                video.networkState !== HTMLMediaElement.NETWORK_LOADING
+            ) {
+                return resolve();
+            }
+            video.addEventListener("canplaythrough", () => resolve(), {
+                once: true,
+            });
+            setTimeout(resolve, maxMs);
+        });
+    }
+
     $effect(() => {
         const video = videoEl;
         if (visible && video) {
@@ -21,7 +44,7 @@
     });
 </script>
 
-<div class="challenge-box" class:visible>
+<div class="challenge-box" class:visible inert={!visible}>
     <div class="header">
         <p>Select all images with a <strong>Rickroll</strong></p>
     </div>
